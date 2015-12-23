@@ -1,0 +1,79 @@
+<#include "header.htm"/>
+<#import "../macros/pagination.ftl" as pagination/>
+<script type="text/javascript">
+<!--
+function confirmDelete(id)
+{
+	if (confirm("${I18n.getMessage("Bookmarks.reallyDelete")}")) {
+		document.location = "${contextPath}/bookmarks/delete/" + id + "${extension}";
+	}
+}
+<#include "js/utils.js"/>
+
+-->
+</script>
+<div class="fonts" align="center">
+    
+      <div align="left">
+		
+			<span class="nav">
+				<a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a>
+				->
+				<a href="${JForumContext.encodeURL("/bookmarks/list/${user.id}")}">${I18n.getMessage("Bookmarks.for")} ${user.username}</a>
+			</span>
+		</div>
+    
+</div>
+
+<div class="forumline" style="width: 100%;">
+	<#assign owner = loggedUserId == user.id/>  
+        <div class="thc" style="float:left;width: 100%;">
+	  <div class="thtop" style="float:left;margin-left: 15%;" nowrap="nowrap">&nbsp;${I18n.getMessage("Bookmarks.title")}&nbsp;</div>
+	  <div class="thtop" style="float:left;margin-left: 30%;" nowrap="nowrap">&nbsp;${I18n.getMessage("Bookmarks.description")}&nbsp;</div>
+	  <#if owner><div class="thtop" style="float:right;margin-right: 5%;" nowrap="nowrap" colspan="2">&nbsp;${I18n.getMessage("Action")}&nbsp;</div></#if>
+	</div>
+
+	<#if bookmarks.size() == 0>
+		<div>
+			<div>
+				<span class="gen">${I18n.getMessage("Bookmarks.empty")}</span>
+			</div>
+		</div>
+	</#if>
+
+	<#assign color = "row1"/>
+	<#list bookmarks as b> 
+		<#if b.relationType == topicType>
+			<#if b.isPublicVisible() || owner>
+				<div align="center">	
+					<div class="${color}" align="left">
+						<span class="gen">
+						<img src="${contextPath}/templates/${templateName}/images/icon_minipost.gif" align="middle" alt="[Post]" /><a href="${JForumContext.encodeURL("/posts/list/${b.relationId}")}" class="gen">${b.title}</a>
+						</span>
+					</div>
+					<div class="${color}"><span class="gen"><#if (b.description?default("")?length > 0)>${b.description}</#if></span></div>
+					<#if owner><td class="${color}"><span class="gen"><a href="javascript:addBookmark(2, ${b.relationId});">${I18n.getMessage("Edit")}</a></span></td></#if>
+					<#if owner><td class="${color}"><span class="gen"><a href="javascript:confirmDelete(${b.id})">${I18n.getMessage("Delete")}</a></span></td></#if>
+				</div>
+
+				<#if color == "row1">
+					<#assign color = "row2"/>
+				<#else>
+					<#assign color = "row1"/>
+				</#if>
+			</#if>
+		</#if>
+	</#list>
+
+	<div align="center">
+		<div class="catbottom">&nbsp;
+		</div>
+	</div>
+</div>
+
+<div>
+	
+		<div align="right"><#if thisPage?exists><@pagination.doPagination "list", -1/></#if></div>
+	
+</div>
+<#include "bottom.htm"/>

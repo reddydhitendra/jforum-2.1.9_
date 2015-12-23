@@ -1,0 +1,161 @@
+<#setting number_format = "#"/>
+<#setting datetime_format = dateTimeFormat/>
+<#assign logged = logged?default(false)/>
+<#assign language = language?default("en_US")/>
+<#assign hasCodeBlock = hasCodeBlock?default(false)/>
+<html>
+    <head>
+       <!-- <link href="styles/cs1.css" rel="stylesheet" type="text/css">-->
+        <meta http-equiv="Content-Type" content="text/html; charset=${encoding}" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="-1" />
+        
+        <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/jquery1.js"></script>
+        
+        <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/plugin1.js"></script>
+        
+        <link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
+        
+        <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/animate.css?${startupTime} );</style>
+        <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/bootstrap.css?${startupTime} );</style>
+        <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/dark.css?${startupTime} );</style>
+        <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/responsive.css?${startupTime} );</style>
+        <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/font-icons.css?${startupTime} );</style>
+        <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/magnific-popup.css?${startupTime} );</style>
+        <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/style_1.css?${startupTime} );</style>
+        
+        
+        <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/style.css?${startupTime} );</style>
+        <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/cs1.css?${startupTime} );</style>
+        <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/${language}.css?${startupTime} );</style>
+
+        
+        
+        <#if hasCodeBlock>
+        <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/SyntaxHighlighter.css?${startupTime} );</style>
+        </#if>
+
+       
+       
+        
+        <title>${pageTitle?default("JForum")?html}</title>
+   
+   
+    </head>
+    <body class="${language}">
+
+        <!--
+        Original theme from phpBB (http://www.phpbb.com) subSilver
+        Created by subBlue design
+        http://www.subBlue.com
+        
+        Modifications by JForum Team
+        
+        -->
+       
+
+            <!-- Top Bar
+            ============================================= -->
+            <div id="top-bar">
+
+                <div class="container clearfix">
+
+                    <div class="col_half nobottommargin">
+
+        <div class="top-links">
+                            <ul>
+                                <li><a href="${JForumContext.encodeURL("/forums/list")}"">Home</a></li>
+                                <li><a href="${JForumContext.encodeURL("/user/list")}">${I18n.getMessage("ForumBase.usersList")}</a> </li>
+                                
+                             <!--   <#if !logged && !sso>
+                                <li>
+                                
+                            <a href="${JForumContext.encodeURL("/user/insert")}"> ${I18n.getMessage("ForumBase.register")}</a>
+                                </li>
+                                <li>
+                            <a href="${JForumContext.encodeURL("/user/login")}">${I18n.getMessage("ForumBase.login")}</a>
+                            
+                                </li>
+                                </#if>
+                                -->
+                                <#if logged>
+                                <li>
+                                    <#if bookmarksEnabled>
+                                    <a class="mainmenu" href="${JForumContext.encodeURL("/bookmarks/list/${session.userId}")}">Bookmarks</a>
+                                    </#if>
+                                </li>
+                                    <#if !sso>
+                                    <li><a id="privatemessages" class="mainmenu" href="${JForumContext.encodeURL("/pm/inbox")}">Messages</a></li>
+                                    
+                                
+                                <li>
+                                    <#if canAccessModerationLog?default(false)>
+                                    <a id="moderationlog" class="mainmenu" href="${JForumContext.encodeURL("/moderation/showActivityLog")}">${I18n.getMessage("ModerationLog.moderationLog")}</a> &nbsp;
+                                    </#if>
+                                </li>
+                                    
+                              <!--  <a href="${JForumContext.encodeURL("/user/edit/${session.userId}")}"> ${session.username} </a>
+                            
+                                </li>
+                                <li>
+                                <a href="${JForumContext.encodeURL("/user/logout")}"> ${I18n.getMessage("ForumBase.logout")}</a>
+                            
+                                </li>-->
+                                </#if>
+                            </#if>
+                                
+                            </ul>
+                        </div><!-- .top-links end -->
+                    </div>
+                    <div class="col_half fright col_last nobottommargin">
+
+                        <!-- Top Social
+                        ============================================= -->
+                        <div class="top-links">
+                            <ul>
+                                <#if !logged && !sso>
+                                <li>
+                                
+                            <a href="${JForumContext.encodeURL("/user/insert")}"> ${I18n.getMessage("ForumBase.register")}</a>
+                                </li>
+                                <li>
+                            <a href="${JForumContext.encodeURL("/user/login")}">${I18n.getMessage("ForumBase.login")}</a>
+                            
+                                </li>
+                                </#if>
+                                <#if logged>
+                                <#if !sso>
+                                <li>
+                                    
+                                <a href="${JForumContext.encodeURL("/user/edit/${session.userId}")}"> ${session.username} </a>
+                            
+                                </li>
+                                <li>
+                                <a href="${JForumContext.encodeURL("/user/logout")}"> ${I18n.getMessage("ForumBase.logout")}</a>
+                            
+                                </li>
+                                </#if>
+                                </#if>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        
+        
+                        <div align="center">&nbsp;
+                            <img src="${contextPath}/templates/${templateName}/images/icon_mini_search.gif" alt="[Search]"/>
+                            <span class="mainmenu"><a id="search" class="mainmenu" href="${JForumContext.encodeURL("/search/filters")}"><b>${I18n.getMessage("ForumBase.search")}</b></a> &nbsp;
+
+                                <img src="${contextPath}/templates/${templateName}/images/icon_mini_recentTopics.gif" alt="[Recent Topics]" />
+                                <a id="latest" class="mainmenu" href="${JForumContext.encodeURL("/recentTopics/list")}">${I18n.getMessage("ForumBase.recentTopics")}</a> &nbsp;
+                                <img src="${contextPath}/templates/${templateName}/images/icon_mini_recentTopics.gif" alt="[Hottest Topics]" />
+                                <a id="hottest" class="mainmenu" href="${JForumContext.encodeURL("/hottestTopics/list")}">${I18n.getMessage("ForumBase.hottestTopics")}</a> &nbsp;
+                                
+                            <br>
+                        </div>
+        
+        
+        
+                

@@ -1,0 +1,71 @@
+<#include "header.htm"/>
+<script type="text/javascript">
+function validateForm(f)
+{
+	if (f.user_id.value == "") {
+		alert("${I18n.getMessage("ActivateAccount.fillUserId")}");
+		f.user_id.focus();
+		
+		return false;
+	}
+
+    if (isNaN(f.user_id.value)) {
+        alert("${I18n.getMessage("ActivateAccount.invalidUserId")}");
+		f.user_id.focus();
+		
+		return false;
+	}
+	
+	if (f.hash.value == "") {
+		alert("${I18n.getMessage("ActivateAccount.fillHash")}");
+		f.hash.focus();
+		
+		return false;
+	}
+
+	return true;
+}
+</script>
+
+<form id="formregister" accept-charset="${encoding}" name="formactivate" action="${JForumContext.encodeURL("/jforum")}" method="post" onsubmit="return validateForm(this);">
+<input type="hidden" name="action" value="activateAccount" />
+<input type="hidden" name="module" value="user" />
+
+
+    <div>
+		<div align="left">
+			<span class="nav fonts"><a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a></span>
+		</div>
+    </div><br>
+
+	<div class="forumline fonts" align="center">	
+
+	<div>
+		<div class="thhead thc">${I18n.getMessage("ActivateAccount.title")}</div>
+	</div>
+        
+	<div>
+		<div class="row2"><span class="gensmall"><font color="red">${I18n.getMessage("User.requiredFields")}</font></span></div>
+	</div>
+        
+	<div>
+		<div class="row1" style="float: left;margin-left: 38.1%;"><span class="gen">${I18n.getMessage("ActivateAccount.userId")}: *</span></div>
+		<div class="row2" style="float: left;"><input class="post" type="text" style="WIDTH: 200px" maxlength="25" size="25" name="user_id"/></div>
+	</div>
+            <br>
+            <div>
+                
+                <div class="row1" style="float: left;margin-left: 37%;" ><span class="gen">${I18n.getMessage("ActivateAccount.hash")}: *</span></div>
+		<div class="row2"><input class="post" type="text" style="WIDTH: 200px;float: left;" maxlength="255" size="25" name="hash"/></div>
+               
+	</div>
+            <br>
+	<div align="center">
+		<div class="catbottom" colspan="2" height="28">
+			<input class="mainoption" type="submit" value="${I18n.getMessage("User.submit")}" name="submit" />&nbsp;&nbsp;
+			<input class="liteoption" type="reset" value="${I18n.getMessage("User.reset")}" name="reset" />
+		</div>
+	</div>
+</div>
+</form>
+<#include "bottom.htm"/>

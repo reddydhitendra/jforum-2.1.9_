@@ -1,0 +1,156 @@
+<#include "header.htm"/>
+
+<div align="center">
+
+    <div class="bodyline">
+        <script type="text/javascript">
+            function select_switch(status)
+            {
+                for (i = 0; i < document.privmsg_list.length; i++) {
+                    document.privmsg_list.elements[i].checked = status;
+                }
+            }
+        </script>
+
+        <div align="center">
+
+            <div valign="top" align="center">
+                <div><br>
+
+                    <div valign="middle" style="margin-left: 40%;">
+                        <div style="float: left;">
+                            <#if !inbox?default(false)>
+                            <a href="${JForumContext.encodeURL("/pm/inbox")}">
+                               </#if>
+                               <img src="${contextPath}/templates/${templateName}/images/msg_inbox.gif" border="0" alt="[Inbox]" />
+                                <#if !inbox?default(false)>
+                            </a>
+                            </#if>
+                        </div>
+                        <div style="float: left;">
+                            <#if !inbox?default(false)>
+                            <a href="${JForumContext.encodeURL("/pm/inbox")}">
+                               </#if>
+                               <span class="cattitle">${I18n.getMessage("PrivateMessage.inbox")} &nbsp;</span>
+                                <#if !inbox?default(false)>
+                            </a>
+                            </#if>
+                        </div>
+                        <div style="float: left;">
+                            <#if !sentbox?default(false)>
+                            <a href="${JForumContext.encodeURL("/pm/sentbox")}">
+                               </#if>
+                               <img src="${contextPath}/templates/${templateName}/images/msg_sentbox.gif" border="0" alt="[Sentbox]" />
+                                <#if !sentbox?default(false)>
+                            </a>
+                            </#if>
+                        </div>
+                        <div style="float: left;">
+                            <#if !sentbox?default(false)>
+                            <a href="${JForumContext.encodeURL("/pm/sentbox")}">
+                               </#if>
+                               <span class="cattitle">${I18n.getMessage("PrivateMessage.sentbox")}&nbsp;</span>
+                                <#if !sentbox?default(false)>
+                            </a>
+                            </#if>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <br clear="all" />
+        <form action="${JForumContext.encodeURL("/jforum")}" method="post" name="privmsg_list" id="privmsg_list">
+              <input type="hidden" name="module" value="${moduleName}" />
+            <input type="hidden" name="action" value="delete" />
+            <div class="fonts" align="center">
+
+                <div>
+                    <div valign="middle" align="left" style="float: left;">
+                        <a href="${JForumContext.encodeURL("/pm/send")}" class="icon_new_topic"><img src="${contextPath}/images/transp.gif" alt="New Topic" /></a>
+                    </div>
+                    <div align="left" style="float: left;">
+                        <span class="nav">
+                            <a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+            <br><br>
+            <div class="forumline">
+
+                <div class="thc">
+                    <div style="float: left;margin-left: 5%;" class="thcornerl" nowrap="nowrap">
+                        &nbsp;&nbsp;
+                    </div>
+                    <div style="float: left;" class="thtop" nowrap="nowrap">
+                        &nbsp;${I18n.getMessage("PrivateMessage.subject")}&nbsp;
+                    </div>
+                    <div style="float: left;margin-left: 40%;" class="thtop" nowrap="nowrap">
+                        <#if inbox?default(false)>
+                        &nbsp;${I18n.getMessage("PrivateMessage.from")}&nbsp;
+                        <#else>
+                        &nbsp;${I18n.getMessage("PrivateMessage.to")}&nbsp;
+                        </#if>
+                    </div>
+                    <div style="float: right;" class="thtop" nowrap="nowrap">
+                        &nbsp;${I18n.getMessage("PrivateMessage.date")}&nbsp;
+                    </div>
+                    <div style="float: left;" class="thcornerr" nowrap="nowrap">
+                        &nbsp;&nbsp;
+                    </div>
+                </div>
+                <#list pmList as pm>
+                <div>
+                    <div class="row1" valign="middle" align="center">
+                        <#if pm.type == NEW>
+                        <img src="${contextPath}/templates/${templateName}/images/folder_new.gif" alt="New Folder" />
+                        <#else>
+                        <img src="${contextPath}/templates/${templateName}/images/folder.gif" alt="Folder" />
+                        </#if>
+                    </div>
+                    <div class="row1" valign="middle"><span class="topictitle">&nbsp;<a class="topictitle" href="${JForumContext.encodeURL("/pm/read/${pm.id}")}">${pm.post.subject?html}</a></span></div>
+                    <div class="row1" valign="middle" align="center">
+                        <#if inbox?default(false)>
+                        <span class="name">&nbsp;<a class="name" href="${JForumContext.encodeURL("/user/profile/${pm.fromUser.id}")}">${pm.fromUser.username}</a></span>
+                        <#else>
+                        <span class="name">&nbsp;<a class="name" href="${JForumContext.encodeURL("/user/profile/${pm.toUser.id}")}">${pm.toUser.username}</a></span>
+                        </#if>
+                    </div>
+                    <div class="row1" valign="middle" align="center"><span class="postdetails">${pm.formatedDate}</span></div>
+                    <div class="row1" valign="middle" align="center"><span class="postdetails"><input type="checkbox" value="${pm.id}" name="id" /></span></div>
+                </div>
+                </#list>
+                <div>
+                    <div class="catbottom" align="right">
+                        &nbsp; <input class="liteoption" type="submit" value="${I18n.getMessage("PrivateMessage.deleteSelected")}" name="delete" />
+                                      <!--
+                                      &nbsp; <input class="liteoption" type="submit" value="${I18n.getMessage("PrivateMessage.deleteAll")}" name="deleteall" />
+                                      -->
+                    </div></div>
+
+            </div>
+            <div class="fonts" align="center">
+                
+                        <div valign="middle" align="left">
+                            <a href="${JForumContext.encodeURL("/pm/send")}" class="icon_new_topic nav"><img src="${contextPath}/images/transp.gif" alt="" /></a>
+                        </div>
+                        <div valign="middle" align="left" width="100%"><span class="nav"></span></div>
+                        <div valign="top" nowrap="nowrap" align="right">
+                            <b><span class="gensmall"><a class="gensmall" href="javascript:select_switch(true);">${I18n.getMessage("PrivateMessage.checkAll")}</a> :: 
+                                    <a class="gensmall" href="javascript:select_switch(false);">${I18n.getMessage("PrivateMessage.uncheckAll")}</a></span></b>
+                            <br />
+                            <span class="nav">
+                                <br />
+                            </span>
+                        </div>
+                   
+            </div>
+        </form>
+        <div align="center"></div>
+    </div>
+
+</div>
+<#include "bottom.htm"/>

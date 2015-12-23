@@ -1,0 +1,41 @@
+<#include "header.htm"/>
+<form action="${JForumContext.encodeURL("/jforum")}" method="post" name="loginform" id="loginform" accept-charset="${encoding}">
+      <input type="hidden" name="module" value="user" />
+    <input type="hidden" name="action" value="validateLogin" />
+
+    <#if returnPath?exists>
+    <input type="hidden" name="returnPath" value="${returnPath?html}" />
+    </#if>
+
+    <div class="col-md-offset-4 tab-container">
+
+        
+        <#if invalidLogin?exists>
+
+        <div>
+            <span class="gen" id="invalidlogin">
+                <font color="red">${I18n.getMessage("Login.invalidLogin")}</font>
+            </span>
+        </div>
+
+        </#if>
+
+        <div class="col_full">
+            <label for="login-form-username">Username:</label>
+            <input type="text" id="login-form-username" name="username" value="" class="form-control widt" />
+        </div>
+
+        <div class="col_full">
+            <label for="login-form-password">Password:</label>
+            <input type="password" id="login-form-password" name="password" value="" class="form-control widt" />
+        </div>
+
+        <div class="nobottommargin">
+            <button type="submit" class= "button button-3d button-black nomargin wid" id="login" name="login" value="Login">Login</button>
+            <a href="${JForumContext.encodeURL("/user/lostPassword")}" class="wid">Forgot Password?</a>
+        </div>
+
+    </div>
+
+</form>
+<#include "bottom.htm"/>

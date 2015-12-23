@@ -1,0 +1,90 @@
+<#include "header.htm"/>
+<#import "../macros/pagination.ftl" as pagination>
+<#import "../macros/presentation.ftl" as presentation/>
+
+<link rel="alternate" type="application/rss+xml" title="RSS" href="${contextPath}/rss/recentTopics${extension}" />
+
+<div align="center">
+    <div>
+         <div class="fonts">
+
+                <div align="left">
+                    <a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a>
+                    &raquo;
+                    <a id="latest3" class="nav" href="${JForumContext.encodeURL("/recentTopics/list")}">${I18n.getMessage("ForumBase.recentTopics")}</a>
+                    <#if rssEnabled>
+                    &nbsp;<a href="${contextPath}/rss/recentTopics${extension}"><img src="${contextPath}/templates/${templateName}/images/xml_button.gif" border="0" align="middle" alt="[XML]" /></a>
+                    </#if>
+                </div>
+
+            </div>
+        <#assign breadCrumb>
+           
+            </#assign>
+        <div class="bodyline">
+
+            
+
+            ${breadCrumb}
+
+            <div class="forumline thc" style="width: 100%;float: left;">
+
+                <div class="thcornerl thc" style="float: left;" align="center">&nbsp;${I18n.getMessage("Forums.Form.ForumName")}&nbsp;</div>
+                <div class="thtop thc" style="float: left;margin-left: 32%;">&nbsp;${I18n.getMessage("ForumIndex.topics")}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div class="thtop thc" style="float: left;margin-left: 30%;">&nbsp;${I18n.getMessage("ForumIndex.answers")}&nbsp;</div>
+                <div class="thtop thc" style="float: left;margin-left: 4%;">&nbsp;${I18n.getMessage("ForumIndex.author")}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div class="thtop thc" style="float: left;">&nbsp;${I18n.getMessage("ForumIndex.views")}&nbsp;&nbsp;&nbsp;</div>
+                <div class="thcornerr thc" style="float: left;">&nbsp;${I18n.getMessage("ForumIndex.lastMessage")}&nbsp;</div>
+            </div>
+
+            <!-- TOPICS LISTING -->
+            <#list topics as topic>
+            <div class="fonts">
+                <div>
+                <div class="row2" style="float: left;"><a class="postdetails" href="${JForumContext.encodeURL("/forums/show/${forums.get(topic_index).getId()}")}">${forums.get(topic_index).getName()}</a></div><br>
+                <div class="row1" style="float: left; margin-left: 20%;"><@presentation.folderImage topic/>
+                
+                    <span class="topictitle">
+                        <a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}"><#if (topic.title?length == 0)>No Subject<#else>${topic.title?html}hi</#if></a>
+                    </span>
+
+                    <#if topic.paginate>
+                    <span class="gensmall">
+                        <br />
+                        <@pagination.littlePostPagination topic.id, postsPerPage, topic.totalReplies/>				
+                    </span>
+                    </#if>		
+                </div>
+            </div>
+                
+                <div  style="float: left;margin-left: 36%;" align="center"><span class="postdetails">${topic.totalReplies}</span></div>
+                <div  style="float: left;margin-left: 7%;" class="row3" align="center">
+                    <span class="name"><a href="${JForumContext.encodeURL("/user/profile/${topic.postedBy.id}")}">${topic.postedBy.username}</a></span>
+                </div>
+
+                <div  style="float: left;margin-left: 3%;" class="row2" align="center"><span class="postdetails">${topic.totalViews}</span></div>
+                <div  class="row3right" align="center" style="margin-left: 30%">
+                    <#if (topic.lastPostTime?length > 0)>
+                    <span class="postdetails">${topic.lastPostTime}<br />
+                        <a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username}</a>
+
+                        <#assign startPage = ""/>
+                        <#if (topic.totalReplies + 1 > postsPerPage?number)>
+                        <#assign startPage = ((topic.totalReplies / postsPerPage?number)?int * postsPerPage?number) +"/"/>
+                        </#if>
+
+                        <a href="${JForumContext.encodeURL("/posts/list/${startPage}${topic.id}")}#${topic.lastPostId}"><img src="${contextPath}/templates/${templateName}/images/icon_latest_reply.gif" border="0" alt="Latest Reply" /></a></span>
+                    
+                    </#if>		 
+                </div>
+                <br>
+                </div>
+            </#list>		
+            <!-- END OF TOPICS LISTING -->
+            
+        </div>  
+
+        ${breadCrumb}
+    </div>
+</div>
+<#include "bottom.htm"/>
